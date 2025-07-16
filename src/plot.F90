@@ -1795,10 +1795,9 @@ contains
         if (.not. spinors) then !!!!! For spinor Wannier functions, the steps below are not necessary.
           ! fix the global phase by setting the wannier to
           ! be real at the point where it has max. modulus
-
-          do loop_w = 1, wann_plot_num
-            tmaxx = 0.0
-            wmod = cmplx_1
+          tmaxx = 0.0
+          wmod = cmplx_1 
+          do loop_w = 1, wann_plot_num  
             do nzz = -((ngs(3))/2)*ngz, ((ngs(3) + 1)/2)*ngz - 1
               do nyy = -((ngs(2))/2)*ngy, ((ngs(2) + 1)/2)*ngy - 1
                 do nxx = -((ngs(1))/2)*ngx, ((ngs(1) + 1)/2)*ngx - 1
@@ -1812,12 +1811,10 @@ contains
                 end do
               end do
             end do
-            wmod = wmod/sqrt(real(wmod)**2 + aimag(wmod)**2)
-            !For real wave functions the following lines ensure that the phase remains the same sign between different wave functions
-            if (real(wmod).lt.0.0) then
-                wmod=-wmod
-            end if
-            wann_func(:, :, :, loop_w) = wann_func(:, :, :, loop_w)/wmod
+          end do
+          wmod = wmod/sqrt(real(wmod)**2 + aimag(wmod)**2)
+          do loop_w = 1, wann_plot_num    
+             wann_func(:, :, :, loop_w) = wann_func(:, :, :, loop_w)/wmod
           end do
           !
           ! Check the 'reality' of the WF
