@@ -1813,6 +1813,10 @@ contains
               end do
             end do
             wmod = wmod/sqrt(real(wmod)**2 + aimag(wmod)**2)
+            !For real wave functions the following lines ensure that the phase remains the same sign between different wave functions
+            if (real(wmod).lt.0.0) then
+                wmod=-wmod
+            end if
             wann_func(:, :, :, loop_w) = wann_func(:, :, :, loop_w)/wmod
           end do
           !
